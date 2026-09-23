@@ -5,56 +5,12 @@ const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, char => ({ '
 const locationFor = row => [row.region, row.province, row.city_municipality].filter(Boolean).join(' · ');
 const projectName = row => row.implementing_office || row.project_title || 'Budget record';
 const sourceUrl = row => row.source_url ? `${escapeHtml(row.source_url)}${row.source_pdf_page ? `#page=${encodeURIComponent(row.source_pdf_page)}` : ''}` : '';
+const projectType = row => ({ road: 'Road', bridge: 'Bridge', drainage: 'Drainage', flood_control: 'Flood control', water_system: 'Water system', public_building: 'Public building', other: 'Other infrastructure', unknown: 'Other infrastructure' }[String(row.project_type || '').toLowerCase()] || 'Not specified');
+function addRegions() { [...new Set(data.map(row => row.region).filter(Boolean))].sort().forEach(region => $('region').add(new Option(region, region))); }
+function filtered() { const query = $('q').value.trim().toLowerCase(); const region = $('region').value; return data.filter(row => { const text = Object.values(row).join(' ').toLowerCase(); return Number(row.is_leaf) !== 0 && (!query || text.includes(query)) && (!region || row.region === region); }); }
+function render() { const rows = filtered(); const total = rows.reduce((sum, row) => sum + (Number(row.amount) || 0), 0); const largest = Math.max(0, ...rows.map(row => Number(row.amount) || 0)); $('total').textContent = money(total); $('count').textContent = rows.length.toLocaleString(); $('largest').textContent = money(largest); $('result-note').textContent = rows.length ? `${rows.length.toLocaleString()} matching records` : 'No matching records'; $('empty').hidden = Boolean(rows.length); $('rows').innerHTML = rows.map(row => { const place = locationFor(row) || 'Area not listed'; const detail = row.project_title && row.implementing_office && row.project_title !== row.implementing_office ? `<small>${escapeHtml(row.project_title)}</small>` : ''; const source = sourceUrl(row) ? `<a href="${sourceUrl(row)}" target="_blank" rel="noopener">Open DBM PDF<span class="page"> p. ${escapeHtml(row.source_page || '')}</span></a>` : 'Source unavailable'; return `<tr><td><strong>${escapeHtml(projectName(row))}</strong>${detail}</td><td>${money(row.amount)}</td><td>${escapeHtml(place)}</td><td><span class="type">${escapeHtml(projectType(row))}</span></td><td>${source}</td></tr>`; }).join(''); }
+function download() { const rows = filtered(); const columns = ['project_title', 'project_type', 'amount', 'region', 'province', 'city_municipality', 'implementing_office', 'source_url', 'source_page']; const csv = [columns.join(','), ...rows.map(row => columns.map(key => `"${String(row[key] ?? '').replaceAll('"', '""')}"`).join(','))].join('\n'); const link = document.createElement('a'); link.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); link.download = 'ph-infra-budget-results.csv'; link.click(); URL.revokeObjectURL(link.href); }
+function applyTheme(theme) { document.documentElement.dataset.theme = theme; const isNight = theme === 'night'; const toggle = $('theme-toggle'); toggle.setAttribute('aria-pressed', String(isNight)); toggle.setAttribute('aria-label', `Switch to ${isNight ? 'day' : 'night'} mode`); toggle.title = toggle.getAttribute('aria-label'); toggle.querySelector('.theme-icon').textContent = isNight ? '☀' : '☾'; }
+fetch('data/projects.json').then(response => { if (!response.ok) throw Error('Dataset unavailable'); return response.json(); }).then(json => { data = json; addRegions(); render(); }).catch(() => { $('result-note').textContent = 'Budget records could not load. Please refresh the page.'; $('empty').hidden = false; });
+$('q').addEventListener('input', render); $('region').addEventListener('change', render); $('search').addEventListener('click', render); $('clear').addEventListener('click', () => { $('q').value = ''; $('region').value = ''; render(); }); $('download-filtered').addEventListener('click', download); applyTheme(localStorage.getItem('ph-infra-theme') === 'night' ? 'night' : 'day'); $('theme-toggle').addEventListener('click', () => { const theme = document.documentElement.dataset.theme === 'night' ? 'day' : 'night'; localStorage.setItem('ph-infra-theme', theme); applyTheme(theme); });
 
-function addRegions() {
-  [...new Set(data.map(row => row.region).filter(Boolean))].sort().forEach(region => $('region').add(new Option(region, region)));
-}
-
-function filtered() {
-  const query = $('q').value.trim().toLowerCase();
-  const region = $('region').value;
-  return data.filter(row => {
-    const text = Object.values(row).join(' ').toLowerCase();
-    return Number(row.is_leaf) !== 0 && (!query || text.includes(query)) && (!region || row.region === region);
-  });
-}
-
-function render() {
-  const rows = filtered();
-  const total = rows.reduce((sum, row) => sum + (Number(row.amount) || 0), 0);
-  const largest = Math.max(0, ...rows.map(row => Number(row.amount) || 0));
-  $('total').textContent = money(total);
-  $('count').textContent = rows.length.toLocaleString();
-  $('largest').textContent = money(largest);
-  $('result-note').textContent = rows.length ? `${rows.length.toLocaleString()} matching records` : 'No matching records';
-  $('empty').hidden = Boolean(rows.length);
-  $('rows').innerHTML = rows.map(row => {
-    const place = locationFor(row) || 'Area not listed';
-    const detail = row.project_title && row.implementing_office && row.project_title !== row.implementing_office
-      ? `<small>${escapeHtml(row.project_title)}</small>` : '';
-    const source = sourceUrl(row) ? `<a href="${sourceUrl(row)}" target="_blank" rel="noopener">Open DBM PDF<span class="page"> p. ${escapeHtml(row.source_page || '')}</span></a>` : 'Source unavailable';
-    return `<tr><td><strong>${escapeHtml(projectName(row))}</strong>${detail}</td><td>${money(row.amount)}</td><td>${escapeHtml(place)}</td><td>${source}</td></tr>`;
-  }).join('');
-}
-
-function download() {
-  const rows = filtered();
-  const columns = ['project_title', 'amount', 'region', 'province', 'city_municipality', 'implementing_office', 'source_url', 'source_page'];
-  const csv = [columns.join(','), ...rows.map(row => columns.map(key => `"${String(row[key] ?? '').replaceAll('"', '""')}"`).join(','))].join('\n');
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
-  link.download = 'ph-infra-budget-results.csv';
-  link.click();
-  URL.revokeObjectURL(link.href);
-}
-
-fetch('data/projects.json')
-  .then(response => { if (!response.ok) throw Error('Dataset unavailable'); return response.json(); })
-  .then(json => { data = json; addRegions(); render(); })
-  .catch(() => { $('result-note').textContent = 'Budget records could not load. Please refresh the page.'; $('empty').hidden = false; });
-
-$('q').addEventListener('input', render);
-$('region').addEventListener('change', render);
-$('search').addEventListener('click', render);
-$('clear').addEventListener('click', () => { $('q').value = ''; $('region').value = ''; render(); });
-$('download-filtered').addEventListener('click', download);

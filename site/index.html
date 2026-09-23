@@ -9,61 +9,30 @@
 </head>
 <body>
   <header>
-    <a class="brand" href="#top">PH Infra<br><span>Budget Finder</span></a>
-    <a class="follow" href="https://x.com/its0xjosh" target="_blank" rel="noopener noreferrer">Follow @its0xjosh on X <span aria-hidden="true">↗</span></a>
+    <a class="brand" href="#top"><span class="brand-mark">PH</span><span>Infra Budget Finder</span></a>
+    <div class="header-actions">
+      <a class="follow-card" href="https://x.com/its0xjosh" target="_blank" rel="noopener noreferrer"><span>Built in public by @its0xjosh</span><strong>Follow on X <span aria-hidden="true">↗</span></strong><small>Your follow means a lot to me.</small></a>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to night mode" aria-pressed="false" title="Switch to night mode"><span class="theme-icon" aria-hidden="true">☾</span></button>
+    </div>
   </header>
-
   <main id="top">
     <section class="intro">
       <p class="eyebrow">Public DPWH budget records · FY 2026</p>
-      <h1>Find your area’s<br><em>budget records.</em></h1>
-      <p>Type a city, province, region, office, or project name. Open the official document for every result.</p>
+      <h1>Find budget records<br>for your area.</h1>
+      <p>Search a city, province, region, office, or project. Every result links to the official document.</p>
     </section>
-
     <section class="search-panel" aria-label="Search public budget records">
       <label for="q">What are you looking for?</label>
-      <div class="search-row">
-        <input id="q" type="search" autocomplete="off" placeholder="Example: Davao City, Cebu, flood control…">
-        <button id="search" type="button">Search</button>
-        <button id="clear" class="text-button" type="button">Clear</button>
-      </div>
-      <div class="filters">
-        <label class="filter-label" for="region">Filter by region</label>
-        <select id="region"><option value="">All regions</option></select>
-      </div>
+      <div class="search-row"><input id="q" type="search" autocomplete="off" placeholder="Example: Davao City, Cebu, flood control…"><button id="search" type="button">Search</button><button id="clear" class="text-button" type="button">Clear</button></div>
+      <div class="filters"><label class="filter-label" for="region">Filter by region</label><select id="region"><option value="">All regions</option></select></div>
     </section>
-
-    <section class="stats" aria-live="polite">
-      <div><span>Budget found</span><strong id="total">—</strong></div>
-      <div><span>Results</span><strong id="count">—</strong></div>
-      <div><span>Biggest listed amount</span><strong id="largest">—</strong></div>
-    </section>
-
-    <section class="results-head">
-      <p id="result-note">Loading budget records…</p>
-      <button id="download-filtered" class="download" type="button">Download these results</button>
-    </section>
-
-    <section class="table-wrap" aria-live="polite">
-      <table>
-        <thead><tr><th>Project or office</th><th>Amount</th><th>Area</th><th>Official source</th></tr></thead>
-        <tbody id="rows"></tbody>
-      </table>
-    </section>
+    <section class="stats" aria-live="polite"><div><span>Budget found</span><strong id="total">—</strong></div><div><span>Results</span><strong id="count">—</strong></div><div><span>Biggest listed amount</span><strong id="largest">—</strong></div></section>
+    <section class="results-head"><p id="result-note">Loading budget records…</p><button id="download-filtered" class="download" type="button">Download these results</button></section>
+    <section class="table-wrap" aria-live="polite"><table><thead><tr><th>Project or office</th><th>Amount</th><th>Area</th><th>Project type</th><th>Official source</th></tr></thead><tbody id="rows"></tbody></table></section>
     <p id="empty" hidden>No results yet. Try a broader place name or remove the region filter.</p>
-
-    <details class="about">
-      <summary>About this data</summary>
-      <p>This site makes public DPWH budget records easier to find. The total adds the listed project records only, so it does not mix them with higher-level totals. Every result links to the original DBM document. Jev checked titles and locations offline; it did not change any amount or source. <a href="data/jev_summary.json" target="_blank" rel="noopener">See the Jev check</a>.</p>
-    </details>
+    <details class="about"><summary>About this data</summary><p>This site makes public DPWH budget records easier to find. The total adds the listed project records only, so it does not mix them with higher-level totals. Every result links to the original DBM document. Jev checked titles and locations offline; it did not change any amount or source. <a href="data/jev_summary.json" target="_blank" rel="noopener">See the Jev check</a>.</p></details>
   </main>
-
-  <footer>
-    <span>PH Infra Budget Finder</span>
-    <a href="data/factuality_report.json" target="_blank" rel="noopener">How we checked the data</a>
-    <a href="https://www.dbm.gov.ph/wp-content/uploads/NEP2026/DPWH/DPWH.pdf" target="_blank" rel="noopener">Original DPWH document</a>
-  </footer>
+  <footer><span>PH Infra Budget Finder</span><a href="data/factuality_report.json" target="_blank" rel="noopener">How we checked the data</a><a href="https://www.dbm.gov.ph/wp-content/uploads/NEP2026/DPWH/DPWH.pdf" target="_blank" rel="noopener">Original DPWH document</a></footer>
   <script src="app.js"></script>
 </body>
 </html>
-
