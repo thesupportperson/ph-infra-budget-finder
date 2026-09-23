@@ -20,9 +20,10 @@ const profiles = {
     { duration: '15s', target: 0 },
   ],
   launch_100: [
-    { duration: '8s', target: 50 },
-    { duration: '8s', target: 100 },
-    { duration: '8s', target: 0 },
+    { duration: '6s', target: 50 },
+    { duration: '6s', target: 100 },
+    { duration: '6s', target: 100 },
+    { duration: '6s', target: 0 },
   ],
 };
 
