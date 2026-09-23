@@ -1,0 +1,39 @@
+{
+  "generated_at": "2026-09-23T02:49:01.709863+00:00",
+  "total_projects": 2102,
+  "total_budget": 13830335137427.0,
+  "fiscal_years": [
+    2026
+  ],
+  "regions": [
+    "Cordillera Administrative Region (CAR)",
+    "National Capital Region (NCR)",
+    "Negros Island Region",
+    "Region I - Ilocos",
+    "Region II - Cagayan Valley",
+    "Region III - Central Luzon",
+    "Region IVA - CALABARZON",
+    "Region IVB - MIMAROPA",
+    "Region IX - Zamboanga Peninsula",
+    "Region V - Bicol",
+    "Region VI - Western Visayas",
+    "Region VII - Central Visayas",
+    "Region VIII - Eastern Visayas",
+    "Region X - Northern Mindanao",
+    "Region XI - Davao",
+    "Region XII - SOCCSKSARGEN",
+    "Region XIII - CARAGA"
+  ],
+  "project_type_totals": {
+    "unknown": 462,
+    "flood_control": 139,
+    "road": 807,
+    "bridge": 379,
+    "public_building": 173,
+    "drainage": 89,
+    "water_system": 53
+  },
+  "review_label_counts": {
+    "": 2102
+  }
+}

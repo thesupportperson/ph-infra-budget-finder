@@ -1,0 +1,17 @@
+{
+  "dataset": "site\\data\\projects.json",
+  "records_checked": 2102,
+  "source_pages_read": 97,
+  "amount_source_hits": 2102,
+  "failures": [],
+  "page_718_reconciliation": {
+    "checked": true,
+    "central": 700471901000.0,
+    "regional_total": 179536992000.0,
+    "regional_rows_total": 179536992000.0,
+    "agency_total": 880008893000.0,
+    "regions_match": true,
+    "agency_match": true
+  },
+  "verdict": "VERIFIED"
+}
