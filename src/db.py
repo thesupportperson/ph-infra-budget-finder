@@ -15,5 +15,11 @@ def connect(path: Path):
     con.execute(f"CREATE TABLE IF NOT EXISTS projects ({PROJECT_COLUMNS})")
     con.execute("""CREATE TABLE IF NOT EXISTS jev_usage (id INTEGER PRIMARY KEY AUTOINCREMENT, project_id TEXT,
                  model TEXT, input_tokens INTEGER, output_tokens INTEGER, estimated_cost_usd REAL, created_at TEXT DEFAULT CURRENT_TIMESTAMP)""")
+    con.execute("""CREATE TABLE IF NOT EXISTS jev_decisions (
+                 project_id TEXT PRIMARY KEY, model TEXT NOT NULL, project_type_choice TEXT,
+                 project_type_confidence REAL, location_choice TEXT, location_confidence REAL,
+                 title_choice TEXT, title_confidence REAL, manual_review_probability REAL,
+                 public_label TEXT, response_json TEXT NOT NULL, created_at TEXT DEFAULT CURRENT_TIMESTAMP)""")
     return con
+
 

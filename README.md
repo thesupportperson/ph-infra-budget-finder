@@ -35,3 +35,12 @@ Cloudflare Pages serves the `site/` folder. The current deployment is direct; de
 ```powershell
 npx wrangler pages deploy site --project-name ph-infra-budget-finder --branch main
 ```
+## Jev offline check
+
+Jev runs only during local processing. It adds structured project-type, location-clarity, title-specificity, and neutral review signals after the parser has already recorded the source facts. It cannot change an amount, source page, office, or PDF link.
+
+```powershell
+python -m src.classify_jev --db data/processed/dpwh_fy2026_release.sqlite --limit 25 --leaf-only
+```
+
+The Typesafe key belongs only in the git-ignored `.env` file. The public site contains no key and makes no Jev API calls.

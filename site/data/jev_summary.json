@@ -1,0 +1,11 @@
+{
+  "purpose": "Jev was used offline to classify project type and check whether the source makes the title and location clear. It never changes budget amounts, source pages, offices, or links.",
+  "model": "jev-1.13.0",
+  "records_checked": 2107,
+  "input_tokens": 1659806,
+  "output_tokens": 331375,
+  "estimated_cost_usd": 0.069711852,
+  "location_clarity": {"clear": 1218, "region_only": 847, "unclear": 42},
+  "project_type": {"road": 941, "other": 427, "bridge": 247, "flood_control": 231, "public_building": 208, "water_system": 53},
+  "neutral_public_labels": {"none": 1060, "Broad Project Title": 433, "Needs Manual Review": 572, "Unclear Location": 42}
+}
