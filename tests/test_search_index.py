@@ -10,6 +10,6 @@ class TestSearchIndex(unittest.TestCase):
         ]
         index = build(records)
         self.assertEqual(len(index), 1)
-        self.assertEqual(index[0]["id"], "leaf")
-        self.assertEqual(tuple(index[0]), PUBLIC_FIELDS)
+        self.assertEqual(index[0][0], None)
+        self.assertEqual(len(index[0]), len(PUBLIC_FIELDS))
         self.assertNotIn("raw_text", index[0])

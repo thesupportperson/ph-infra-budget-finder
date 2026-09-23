@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>PH Infra Budget Finder</title>
   <meta name="description" content="Search public FY 2026 DPWH budget records by place, office, or project.">
+  <link rel="icon" type="image/png" href="favicon.png">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -28,9 +29,9 @@
     </section>
     <section class="stats" aria-live="polite"><div><span>Budget found</span><strong id="total">—</strong></div><div><span>Results</span><strong id="count">—</strong></div><div><span>Biggest listed amount</span><strong id="largest">—</strong></div></section>
     <section class="results-head"><p id="result-note">Loading budget records…</p><button id="download-filtered" class="download" type="button">Download these results</button></section>
-    <section class="table-wrap" aria-live="polite"><table><thead><tr><th>Project or office</th><th>Amount</th><th>Area</th><th>Project type</th><th>Official source</th></tr></thead><tbody id="rows"></tbody></table></section>
+    <section class="table-wrap" aria-live="polite"><table><thead><tr><th>Project or office</th><th>Amount</th><th>Area (budget grouping)</th><th>Project type</th><th>Official source</th></tr></thead><tbody id="rows"></tbody></table></section>
     <p id="empty" hidden>No results yet. Try a broader place name or remove the region filter.</p>
-    <details class="about"><summary>About this data</summary><p>This site makes public DPWH budget records easier to find. The total adds the listed project records only, so it does not mix them with higher-level totals. Every result links to the original DBM document. Jev checked titles and locations offline; it did not change any amount or source. <a href="data/jev_summary.json" target="_blank" rel="noopener">See the Jev check</a>.</p></details>
+    <details class="about"><summary>About this data</summary><p>This site makes public DPWH budget records easier to find. The total adds the listed project records only, so it does not mix them with higher-level totals. Every result links to the original DBM document. The budget grouping may differ from the project location named in the title, especially for Central Office projects. Jev checked titles and locations offline; it did not change any amount or source. <a href="data/jev_summary.json" target="_blank" rel="noopener">See the Jev check</a>.</p></details>
   </main>
   <footer><span>PH Infra Budget Finder</span><a href="data/factuality_report.json" target="_blank" rel="noopener">How we checked the data</a><a href="https://www.dbm.gov.ph/wp-content/uploads/NEP2026/DPWH/DPWH.pdf" target="_blank" rel="noopener">Original DPWH document</a></footer>
   <script src="app.js"></script>

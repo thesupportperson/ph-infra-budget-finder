@@ -9,14 +9,13 @@ import json
 from pathlib import Path
 
 PUBLIC_FIELDS = (
-    "id", "fiscal_year", "region", "province", "city_municipality",
-    "implementing_office", "project_title", "project_type", "amount",
-    "amount_display", "source_url", "source_page", "source_pdf_page",
+    "region", "province", "city_municipality", "implementing_office",
+    "project_title", "project_type", "amount", "source_page", "source_pdf_page",
 )
 
 
 def build(records):
-    return [{field: record.get(field) for field in PUBLIC_FIELDS}
+    return [[record.get(field) for field in PUBLIC_FIELDS]
             for record in records if int(record.get("is_leaf") or 0) != 0]
 
 
