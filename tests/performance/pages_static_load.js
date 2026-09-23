@@ -53,7 +53,7 @@ export default function () {
     ['GET', `${baseUrl}/`, null, { tags: { asset: 'html' } }],
     ['GET', `${baseUrl}/style.css`, null, { tags: { asset: 'css' } }],
     ['GET', `${baseUrl}/app.js`, null, { tags: { asset: 'js' } }],
-    ['GET', `${baseUrl}/data/projects.json`, null, { tags: { asset: 'data' } }],
+    ['GET', `${baseUrl}/data/search-index.json`, null, { tags: { asset: 'data' } }],
     ['GET', `${baseUrl}/data/factuality_report.json`, null, { tags: { asset: 'report' } }],
   ]);
   const [html, css, js, data, report] = responses;
@@ -66,3 +66,4 @@ export default function () {
   check(report, { 'factuality report returns 200': result => result.status === 200 });
   sleep(3);
 }
+

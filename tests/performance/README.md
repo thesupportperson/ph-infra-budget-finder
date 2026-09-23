@@ -1,6 +1,6 @@
 # Performance checks
 
-`pages_static_load.js` is independent of the parser and UI unit tests. It requests the production site's static HTML, CSS, JavaScript, project JSON, and factuality report concurrently.
+`pages_static_load.js` is independent of the parser and UI unit tests. It requests the production site's static HTML, CSS, JavaScript, small search-index JSON, and factuality report concurrently.
 
 Profiles:
 
@@ -16,3 +16,4 @@ k6 run tests/performance/pages_static_load.js
 ```
 
 This validates a bounded traffic level from one load-generator machine. It does not prove a global maximum visitor capacity. Do not use a heavier production test without Cloudflare analytics/observability and explicit approval.
+
