@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-09-23T02:49:01.709863+00:00",
-  "total_projects": 2102,
-  "total_budget": 13830335137427.0,
+  "generated_at": "2026-09-23T05:11:03.556280+00:00",
+  "total_projects": 2107,
+  "total_budget": 15592960255427.0,
   "fiscal_years": [
     2026
   ],
@@ -25,7 +25,7 @@
     "Region XIII - CARAGA"
   ],
   "project_type_totals": {
-    "unknown": 462,
+    "unknown": 467,
     "flood_control": 139,
     "road": 807,
     "bridge": 379,
@@ -34,6 +34,6 @@
     "water_system": 53
   },
   "review_label_counts": {
-    "": 2102
+    "": 2107
   }
 }

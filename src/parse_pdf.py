@@ -78,6 +78,30 @@ def total_amount_for(y, items, tolerance=9):
 def amount_from_text(text):
     values = money_values(text)
     return values[-1] if values else None
+
+def amount_in_column(y, items, x_min, tolerance=4):
+    """Read a numeric PDF column without accidentally using an earlier-year value."""
+    candidates = []
+    for x, ay, text in items:
+        if x >= x_min and abs(ay - y) <= tolerance:
+            values = money_values(text)
+            if values:
+                candidates.append((x, max(values)))
+    return max(candidates, key=lambda item: item[0])[1] if candidates else None
+
+def financial_summary_specs(pdf_index, items):
+    """Adapter for printed page 714's FY 2026 column, printed in thousand pesos."""
+    if pdf_index != 1:
+        return
+    for y, raw_label in grouped_left(items, x_limit=260, gap=5):
+        if not 540 <= y <= 620:
+            continue
+        source_thousands = amount_in_column(y, items, x_min=410, tolerance=3)
+        label = clean_label(re.sub(r"\s+", " ", raw_label).strip(" ."))
+        if not source_thousands or not label:
+            continue
+        yield {"label": label, "amount": source_thousands * 1000}
+
 def summary_specs(pdf_index, items):
     """Dedicated adapters for printed pages 716–718 (physical PDF pages 3–5)."""
     bands = {
@@ -132,11 +156,27 @@ def parse(pdf_path, include_hierarchy=False):
         return row["id"]
 
     for pdf_index, page in enumerate(reader.pages, start=1):
-        if include_hierarchy and pdf_index < 3:
-            continue  # Pages 714–715 use a different summary layout; quarantine until a dedicated adapter exists.
         text = page.extract_text() or ""
         items = blocks(page)
         source_page = str(pdf_index + 713)  # Physical page 1 is printed budget page 714.
+        if include_hierarchy and pdf_index == 1:
+            for spec in financial_summary_specs(pdf_index, items):
+                add_row(
+                    fiscal_year=2026, budget_stage="NEP", agency="DPWH", region="",
+                    province="", city_municipality="", possible_congressional_district="", implementing_office="",
+                    project_title=spec["label"], project_type=normalize_type(spec["label"]), amount=spec["amount"],
+                    amount_display=peso(spec["amount"]), location_clarity="unclear", title_specificity="broad",
+                    needs_manual_review_score=None, review_label="", review_reason="",
+                    is_large_allocation_score=None, citizen_readability="moderate",
+                    source_name="DBM FY 2026 NEP DPWH Expenditure Program", source_url=SOURCE_URL,
+                    source_page=source_page, source_pdf_page=pdf_index, row_level="financial_summary",
+                    parent_row_id="", is_leaf=0, extraction_confidence="financial_summary_adapter",
+                    extraction_note="Printed page 714 reports this FY 2026 amount in thousand pesos; the published amount is converted to pesos.",
+                    raw_text=spec["label"],
+                )
+            continue
+        if include_hierarchy and pdf_index == 2:
+            continue  # Printed page 715 continues historical release details and has no FY 2026 amount column.
         if include_hierarchy and pdf_index in {3, 4, 5}:
             for spec in summary_specs(pdf_index, items):
                 add_row(
@@ -216,6 +256,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 

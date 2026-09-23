@@ -1,5 +1,5 @@
 import unittest
-from src.parse_pdf import clean_label, row_level, total_amount_for
+from src.parse_pdf import amount_in_column, clean_label, row_level, total_amount_for
 
 
 class TestHierarchyExtraction(unittest.TestCase):
@@ -23,6 +23,10 @@ class TestHierarchyExtraction(unittest.TestCase):
         title = clean_label(label[:code.start()] + " " + label[code.end():])
         self.assertEqual(title, "FLOOD MANAGEMENT PROGRAM")
         self.assertEqual(row_level(title, True), "program_summary")
+    def test_financial_summary_reads_only_the_2026_column(self):
+        items = [(298, 100, "996,791,684"), (353, 100, "1,087,698,747"), (422, 100, "880,008,893")]
+        self.assertEqual(amount_in_column(100, items, x_min=410), 880_008_893)
 if __name__ == "__main__":
     unittest.main()
+
 

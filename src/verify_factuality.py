@@ -51,7 +51,13 @@ def main():
         label = row.get("raw_text") or row.get("implementing_office") or row.get("project_title")
         if normalized_text(label) and not label_supported_by_source(label, text):
             failures.append({"id": row.get("id"), "check": "label_missing_from_source", "page": pdf_page})
-        if int(row.get("amount") or 0) not in money_tokens(text):
+        amount = int(row.get("amount") or 0)
+        source_amount = amount
+        if row.get("row_level") == "financial_summary" and str(row.get("source_page")) == "714":
+            if amount % 1000:
+                failures.append({"id": row.get("id"), "check": "financial_summary_unit_conversion"})
+            source_amount = amount // 1000
+        if source_amount not in money_tokens(text):
             failures.append({"id": row.get("id"), "check": "amount_missing_from_source", "page": pdf_page})
         else:
             source_hits += 1
@@ -76,6 +82,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 

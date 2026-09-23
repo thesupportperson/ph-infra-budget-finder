@@ -1,5 +1,68 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PH Infra Budget Finder</title><link rel="stylesheet" href="style.css"></head><body><header><a class="brand" href="#top">PH<span>·</span>INFRA<br><small>BUDGET FINDER</small></a><p class="edition">PUBLIC DATA INDEX<br><span id="generated">Loading dataset…</span></p></header><main id="top"><section class="intro"><p class="kicker">Search public DPWH budget items</p><h1>Search the DPWH budget.</h1><p class="lede">Search official FY 2026 DPWH allocation lines by place, office, or program. Each result keeps its source page.</p></section><section class="search-panel" aria-label="Search projects"><label for="q">Find an area or project</label><div class="search-row"><input id="q" placeholder="Search area, province, city, project, or keyword…"><button id="search">Search records</button><button id="clear" class="quiet">Clear</button></div><div class="filters"><select id="year"><option value="">Any fiscal year</option></select><select id="region"><option value="">Any region</option></select><select id="type"><option value="">Any project type</option></select><select id="level"><option value="">Any row level</option></select><input id="min" type="number" min="0" placeholder="Min. amount"><input id="max" type="number" min="0" placeholder="Max. amount"><label class="summary-toggle"><input id="include-summary" type="checkbox"> Include summary lines</label></div></section><section class="notice"><strong>Coverage and how to read this.</strong> This release covers independently verified rows from the supported FY 2026 expenditure-table layouts. Printed pages 714–715 are not included yet; later performance-indicator pages are excluded because they are not budget allocations. The default view shows leaf lines only, so totals do not mix parent and child allocations. Turn on summary lines only when comparing budget hierarchy. Verify each record against the official source.</section><section class="stats" aria-live="polite"><div><span>Sum of listed lines</span><b id="total">—</b></div><div><span>Projects found</span><b id="count">—</b></div><div><span>Largest line item</span><b id="largest">—</b></div><div><span>Source-linked lines</span><b id="source-linked">—</b></div></section><section class="results-head"><p id="result-note">Loading records…</p><div><button id="download-filtered" class="quiet">Download filtered CSV</button><a class="quiet" href="data/projects.csv" download>Download all CSV</a></div></section><section class="table-wrap"><table><thead><tr><th>Project</th><th>Amount</th><th>Row level</th><th>Location</th><th>Office</th><th>Type</th><th>Review</th><th>Source</th></tr></thead><tbody id="rows"></tbody></table></section><p id="empty" hidden>No records match these filters. Try removing a filter or use a broader place name.</p></main><footer>PH Infra Budget Finder · Static public-data search · <a href="data/projects.json">Dataset JSON</a> · <span id="factuality-status">Loading factuality report…</span></footer><script src="app.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>PH Infra Budget Finder</title>
+  <meta name="description" content="Search public FY 2026 DPWH budget records by place, office, or project.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <a class="brand" href="#top">PH Infra<br><span>Budget Finder</span></a>
+    <a class="follow" href="https://x.com/its0xjosh" target="_blank" rel="noopener noreferrer">Follow @its0xjosh on X <span aria-hidden="true">↗</span></a>
+  </header>
 
+  <main id="top">
+    <section class="intro">
+      <p class="eyebrow">Public DPWH budget records · FY 2026</p>
+      <h1>Find your area’s<br><em>budget records.</em></h1>
+      <p>Type a city, province, region, office, or project name. Open the official document for every result.</p>
+    </section>
 
+    <section class="search-panel" aria-label="Search public budget records">
+      <label for="q">What are you looking for?</label>
+      <div class="search-row">
+        <input id="q" type="search" autocomplete="off" placeholder="Example: Davao City, Cebu, flood control…">
+        <button id="search" type="button">Search</button>
+        <button id="clear" class="text-button" type="button">Clear</button>
+      </div>
+      <div class="filters">
+        <label class="filter-label" for="region">Filter by region</label>
+        <select id="region"><option value="">All regions</option></select>
+      </div>
+    </section>
 
+    <section class="stats" aria-live="polite">
+      <div><span>Budget found</span><strong id="total">—</strong></div>
+      <div><span>Results</span><strong id="count">—</strong></div>
+      <div><span>Biggest listed amount</span><strong id="largest">—</strong></div>
+    </section>
 
+    <section class="results-head">
+      <p id="result-note">Loading budget records…</p>
+      <button id="download-filtered" class="download" type="button">Download these results</button>
+    </section>
+
+    <section class="table-wrap" aria-live="polite">
+      <table>
+        <thead><tr><th>Project or office</th><th>Amount</th><th>Area</th><th>Official source</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </section>
+    <p id="empty" hidden>No results yet. Try a broader place name or remove the region filter.</p>
+
+    <details class="about">
+      <summary>About this data</summary>
+      <p>This site makes public DPWH budget records easier to find. The total adds the listed project records only, so it does not mix them with higher-level totals. Every result links to the original DBM document. This is not a finding of wrongdoing.</p>
+    </details>
+  </main>
+
+  <footer>
+    <span>PH Infra Budget Finder</span>
+    <a href="data/factuality_report.json" target="_blank" rel="noopener">How we checked the data</a>
+    <a href="https://www.dbm.gov.ph/wp-content/uploads/NEP2026/DPWH/DPWH.pdf" target="_blank" rel="noopener">Original DPWH document</a>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>
