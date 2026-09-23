@@ -8,5 +8,8 @@
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Resource-Policy: same-origin
 
+/app.js
+  Cache-Control: no-cache
+
 /data/*
   Cache-Control: public, max-age=3600
